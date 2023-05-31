@@ -1,0 +1,121 @@
+.login_cont {
+    display: flex;
+    flex-direction: row;
+    justify-content: center; 
+}
+
+.login_register_body {
+    background-color:rgb(255, 218, 163);
+    height: 100000px;
+}
+
+.login_main {
+    width: 50%;
+    border: 5px solid rgb(60, 53, 156);
+    font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    background-color:cornflowerblue;
+    font-size: 20px;
+    border-radius: 10px;
+    padding: 8px;
+}
+
+#login_btn {
+    width: 100%;
+}
+
+.body_class {
+    background-color:blanchedalmond;
+    background-color:rgb(255, 218, 163);
+    top: 800px;
+}
+
+input {
+    border-radius: 6px;
+    background-color: rgb(239, 114, 45);
+    background-color: rgb(224, 131, 110);
+
+
+}
+
+.login-btn {
+    border: 3px solid rgb(60, 53, 156);
+    background-color: rgb(224, 131, 110);;
+    color: black;
+}
+
+#select_img {
+    border-radius: 20px
+}
+
+#already_register {
+    text-align: center; 
+    font-size: 17px
+}
+
+.logo_class {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color:rgb(255, 218, 163);
+}
+
+.login_className {
+    top: 60%;
+}
+
+#no_register {
+    text-align: center; 
+    font-size: 17px;
+}
+
+.in_center {
+    background:rgb(224, 131, 110);
+}
+
+.flex-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px;
+}
+
+.flex-item4 {
+     flex-grow: 4;
+}
+
+.flex-item8 {
+    display: flex;
+    width: 70%;
+}
+
+.my_input {
+    width: 100%;
+    height: 40px;
+}
+
+
+.img_logo_register {
+    width: 150px;
+}
+
+.img_logo_login {
+    width: 250px;
+}
+
+#files {
+    background-color:cornflowerblue;
+}
+
+.errors {
+    font-size: 15px;
+    padding: 8px;
+    color: rgb(179, 108, 92);
+}
+
+.bg_def {
+    background-color: aqua;
+}
+
+#image {
+    height: 36px;
+}
