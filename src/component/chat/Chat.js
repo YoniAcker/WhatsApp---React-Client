@@ -56,8 +56,7 @@ function Chat({ token, username }) {
           <RightSide
             selected={FindSelected()}
             token={token}
-            contactList={contactList}
-            SetContactList={SetContactList}
+            Update={FetchData}
           />
         </div>
       </div>

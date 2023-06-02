@@ -56,7 +56,6 @@ function Register_form() {
   };
 
   const SendToServer = async function (image) {
-    console.log(image);
     let userName = document.getElementById("userName").value;
     let password = document.getElementById("password").value;
     let displayName = document.getElementById("displayName").value;

@@ -3,7 +3,7 @@ import ChatBox from "../chat-box/ChatBox";
 import NewTextLine from "../new-text-line/NewTextLine";
 import { useState, useEffect } from "react";
 
-function RightSide({ selected, token, contactList, SetContactList }) {
+function RightSide({ selected, token, Update }) {
   const [messageList, SetMessageList] = useState([]);
   const FetchData = async function () {
     if (selected === null) {
@@ -57,14 +57,7 @@ function RightSide({ selected, token, contactList, SetContactList }) {
             messageList={messageList}
             username={selected.user.username}
           />
-          <NewTextLine
-            id={selected.id}
-            token={token}
-            messageList={messageList}
-            SetMessageList={SetMessageList}
-            contactList={contactList}
-            SetContactList={SetContactList}
-          />
+          <NewTextLine id={selected.id} token={token} Update={Update} />
         </div>
       </div>
     );

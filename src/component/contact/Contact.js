@@ -41,8 +41,6 @@ function Contact({ contact, selected, SetSelected }) {
   } else {
     time = contact.lastMessage.created.split("T")[0];
   }
-  console.log(contact);
-  console.log(contact["lastMessage"]);
   return (
     <li
       className="list-group-item chat-contact"
