@@ -3,16 +3,30 @@ import { useState, useEffect } from "react";
 function UserInfo({ token, username }) {
   const [userInfo, SetUserInfo] = useState({});
   const FetchData = async function () {
-    const res = await fetch("http://localhost:5000/api/Users/" + username, {
+    await fetch("http://localhost:5000/api/Users/" + username, {
       method: "get",
       headers: {
         "Content-Type": "application/json",
         authorization: "Bearer " + token,
       },
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (res.status === 401) {
+          alert("Error. please reconnect");
+          return null;
+        } else if (res.status >= 400) {
+          alert("Error. Please try again");
+          return null;
+        } else if (res.status === 200) {
+          return res.json();
+        }
+      })
       .then((info) => {
-        SetUserInfo(info);
+        if (info === null) {
+          return;
+        } else {
+          SetUserInfo(info);
+        }
       });
   };
   useEffect(() => {

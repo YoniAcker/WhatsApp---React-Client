@@ -3,13 +3,13 @@ import ChatBox from "../chat-box/ChatBox";
 import NewTextLine from "../new-text-line/NewTextLine";
 import { useState, useEffect } from "react";
 
-function RightSide({ selected, token }) {
+function RightSide({ selected, token, contactList, SetContactList }) {
   const [messageList, SetMessageList] = useState([]);
   const FetchData = async function () {
     if (selected === null) {
       return;
     } else {
-      const res = await fetch(
+      await fetch(
         "http://localhost:5000/api/Chats/" + selected.id + "/Messages",
         {
           method: "get",
@@ -19,7 +19,17 @@ function RightSide({ selected, token }) {
           },
         }
       )
-        .then((res) => res.json())
+        .then((res) => {
+          if (res.status === 401) {
+            alert("Error. please reconnect");
+            return null;
+          } else if (res.status >= 400) {
+            alert("Error. Please try again");
+            return null;
+          } else if (res.status === 200) {
+            return res.json();
+          }
+        })
         .then((messages) => {
           SetMessageList(messages);
         });
@@ -52,6 +62,8 @@ function RightSide({ selected, token }) {
             token={token}
             messageList={messageList}
             SetMessageList={SetMessageList}
+            contactList={contactList}
+            SetContactList={SetContactList}
           />
         </div>
       </div>

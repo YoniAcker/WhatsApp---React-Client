@@ -1,6 +1,13 @@
 import { useRef } from "react";
 
-function NewTextLine({ token, messageList, SetMessageList, id }) {
+function NewTextLine({
+  token,
+  messageList,
+  SetMessageList,
+  id,
+  contactList,
+  SetContactList,
+}) {
   const messegeText = useRef(null);
   const Add = async function () {
     if (messegeText.current.value !== "") {
@@ -17,8 +24,20 @@ function NewTextLine({ token, messageList, SetMessageList, id }) {
           }),
         }
       );
-      let newList = await res.json();
-      SetMessageList([newList, ...messageList]);
+      if (res.status === 401) {
+        alert("Error. please reconnect");
+      } else if (res.status >= 400) {
+        alert("Error. Please try again");
+      } else if (res.status === 200) {
+        let newMessage = await res.json();
+        SetMessageList([newMessage, ...messageList]);
+        for (let contact of contactList) {
+          if (contact.id === id) {
+            contact.lastMessage = newMessage;
+          }
+        }
+        SetContactList(contactList);
+      }
       messegeText.current.value = "";
     }
   };

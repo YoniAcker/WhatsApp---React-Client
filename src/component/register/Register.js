@@ -41,30 +41,46 @@ function Register_form() {
     if (correct_register === 0) {
       alert("At least one of the fields was not entered correctly");
     } else {
-      let userName = document.getElementById("userName").value;
-      let password = document.getElementById("password").value;
-      let displayName = document.getElementById("displayName").value;
-      let image = document.getElementById("image").value;
-      const res = await fetch("http://localhost:5000/api/Users", {
-        method: "post",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: userName,
-          password: password,
-          displayName: displayName,
-          profilePic: image,
-        }),
-      });
-      if (res.status === 409) {
-        alert("This user-name already exist in the system.");
-      }
-      if (res.status === 200) {
-        navigate("/");
+      let image = document.getElementById("image").files[0];
+      try {
+        const reader = new FileReader();
+        console.log(reader);
+        reader.onloadend = () => {
+          SendToServer(reader.result);
+        };
+        reader.readAsDataURL(image);
+      } catch (error) {
+        alert("Error converting image to base64.");
       }
     }
   };
+
+  const SendToServer = async function (image) {
+    console.log(image);
+    let userName = document.getElementById("userName").value;
+    let password = document.getElementById("password").value;
+    let displayName = document.getElementById("displayName").value;
+    const res = await fetch("http://localhost:5000/api/Users", {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: userName,
+        password: password,
+        displayName: displayName,
+        profilePic: image,
+      }),
+    });
+    if (res.status === 409) {
+      alert("This user-name already exist in the system.");
+    }
+    if (res.status === 400 || res.status === 500) {
+      alert("Error. Please try again");
+    }
+    navigate("/");
+  };
+
   const validateInput = (e) => {
     let { name, value } = e.target;
     setError((prev) => {

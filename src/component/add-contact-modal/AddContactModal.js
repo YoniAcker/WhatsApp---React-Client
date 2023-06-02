@@ -14,8 +14,14 @@ function AddContactModal({ token, contactList, SetContactList }) {
           username: contactName.current.value,
         }),
       });
-      if (res.status >= 400) {
+      if (res.status === 404) {
         alert("There is no user with this name in the system!");
+      } else if (res.status === 409) {
+        alert("You already have chat with this user");
+      } else if (res.status === 401) {
+        alert("Error. please reconnect");
+      } else if (res.status === 500) {
+        alert("Error. Please try again");
       } else {
         let newList = await res.json();
         SetContactList([...contactList, newList]);

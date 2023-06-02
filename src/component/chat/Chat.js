@@ -20,11 +20,16 @@ function Chat({ token, username }) {
         authorization: "Bearer " + token,
       },
     });
-    if (res.status >= 400) {
+    if (res.status === 401) {
+      alert("Error. please reconnect");
       return <Navigate replace to="/" />;
+    } else if (res.status >= 500) {
+      alert("Error. Please try again");
+      return <Navigate replace to="/" />;
+    } else if (res.status === 200) {
+      let data = await res.json();
+      SetContactList(data);
     }
-    let data = await res.json();
-    SetContactList(data);
   };
   const FindSelected = function () {
     for (let contact of contactList) {
@@ -48,7 +53,12 @@ function Chat({ token, username }) {
             token={token}
             username={username}
           />
-          <RightSide selected={FindSelected()} token={token} />
+          <RightSide
+            selected={FindSelected()}
+            token={token}
+            contactList={contactList}
+            SetContactList={SetContactList}
+          />
         </div>
       </div>
       <LogOutModal />
