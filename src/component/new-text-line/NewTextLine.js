@@ -1,11 +1,11 @@
 import { useRef } from "react";
 
-function NewTextLine({ token, id, Update }) {
+function NewTextLine({ token, selected, AddMessage, socket }) {
   const messegeText = useRef(null);
   const Add = async function () {
     if (messegeText.current.value !== "") {
       const res = await fetch(
-        "http://localhost:5000/api/Chats/" + id + "/Messages",
+        "http://localhost:5000/api/Chats/" + selected.id + "/Messages",
         {
           method: "post",
           headers: {
@@ -22,8 +22,12 @@ function NewTextLine({ token, id, Update }) {
       } else if (res.status >= 400) {
         alert("Error. Please try again");
       } else if (res.status === 200) {
-        await res.json();
-        Update();
+        let message = await res.json();
+        AddMessage(message);
+        socket.emit("message", {
+          username: selected.user.username,
+          type: "message",
+        });
       }
       messegeText.current.value = "";
     }

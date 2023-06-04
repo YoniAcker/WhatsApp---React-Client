@@ -7,14 +7,20 @@ function Messege({ message, username }) {
     msg = "chat-left-msg";
     tri = "chat-triangle-left";
   }
+  let time = parseInt(message.created.split("T")[1].split(":")[0]) + 3;
+  if (time < 10) {
+    time = "0" + time.toString();
+  } else {
+    time = time.toString();
+  }
+  time += ":";
+  time += message.created.split("T")[1].split(":")[1];
   return (
     <span className={msg}>
       {message.content}
       <div className={tri}></div>
       <span className="badge rounded-pill text-bg-secondary time-pill">
-        {message.created.split("T")[1].split(":")[0] +
-          ":" +
-          message.created.split("T")[1].split(":")[1]}
+        {time}
       </span>
     </span>
   );

@@ -22,15 +22,16 @@ function Login({ SetToken, SetUsername }) {
         },
         body: JSON.stringify({ username: userName, password: password }),
       });
-      const text = await res.text();
       if (res.status === 404) {
-        SetError(text);
+        let text = await res.json();
+        SetError(text.message);
         return;
       }
       if (res.status === 400 || res.status === 500) {
         SetError("Error. Please try again");
       }
       if (res.status === 200) {
+        let text = await res.text();
         SetToken(text);
         SetUsername(userName);
         navigate("/chat");

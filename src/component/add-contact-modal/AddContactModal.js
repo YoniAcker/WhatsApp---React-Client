@@ -1,6 +1,6 @@
 import { useRef } from "react";
 
-function AddContactModal({ token, contactList, SetContactList }) {
+function AddContactModal({ token, contactList, SetContactList, socket }) {
   const contactName = useRef(null);
   const Add = async function () {
     if (contactName.current.value !== "") {
@@ -23,8 +23,12 @@ function AddContactModal({ token, contactList, SetContactList }) {
       } else if (res.status === 500) {
         alert("Error. Please try again");
       } else {
-        let newList = await res.json();
-        SetContactList([...contactList, newList]);
+        let newUser = await res.json();
+        SetContactList([...contactList, newUser]);
+        socket.emit("message", {
+          username: newUser.user.username,
+          type: "contact",
+        });
       }
       contactName.current.value = "";
     }

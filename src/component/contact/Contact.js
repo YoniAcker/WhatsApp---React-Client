@@ -35,9 +35,14 @@ function Contact({ contact, selected, SetSelected }) {
   let currentDate = today.getFullYear() + "-" + month + "-" + day;
   if (contact.lastMessage.created.split("T")[0] === currentDate) {
     time =
-      contact.lastMessage.created.split("T")[1].split(":")[0] +
-      ":" +
-      contact.lastMessage.created.split("T")[1].split(":")[1];
+      parseInt(contact.lastMessage.created.split("T")[1].split(":")[0]) + 3;
+    if (time < 10) {
+      time = "0" + time.toString();
+    } else {
+      time = time.toString();
+    }
+    time += ":";
+    time += contact.lastMessage.created.split("T")[1].split(":")[1];
   } else {
     time = contact.lastMessage.created.split("T")[0];
   }

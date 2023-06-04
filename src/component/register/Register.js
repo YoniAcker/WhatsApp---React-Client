@@ -44,7 +44,6 @@ function Register_form() {
       let image = document.getElementById("image").files[0];
       try {
         const reader = new FileReader();
-        console.log(reader);
         reader.onloadend = () => {
           SendToServer(reader.result);
         };
@@ -73,9 +72,11 @@ function Register_form() {
     });
     if (res.status === 409) {
       alert("This user-name already exist in the system.");
+      return;
     }
     if (res.status === 400 || res.status === 500) {
       alert("Error. Please try again");
+      return;
     }
     navigate("/");
   };

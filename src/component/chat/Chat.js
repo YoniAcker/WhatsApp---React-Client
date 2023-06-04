@@ -5,13 +5,35 @@ import AddContactModal from "../add-contact-modal/AddContactModal";
 import LogOutModal from "../log-out-modal/LogOutModal";
 import { useState, useEffect } from "react";
 import { Navigate } from "react-router-dom";
+import io from "socket.io-client";
 
 function Chat({ token, username }) {
+  const socket = io("http://localhost:5000");
   const [contactList, SetContactList] = useState([]);
   const [selected, SetSelected] = useState(null);
+  const UpdateContact = function (contact, message) {
+    let contacts = contactList;
+    contact.lastMessage = message;
+    for (let i = 0; i < contacts.length; i++) {
+      if (contacts[i].username === contact.username) {
+        contacts.splice(i, 1);
+        break;
+      }
+    }
+    contacts.unshift(contact);
+    SetContactList([...contacts]);
+  };
   useEffect(() => {
     FetchData();
   }, []);
+  useEffect(() => {
+    socket.on("message", function (message) {
+      if (message.username == username) {
+        FetchData();
+        alert("You got new " + message.type + "!");
+      }
+    });
+  }, [socket]);
   const FetchData = async () => {
     const res = await fetch("http://localhost:5000/api/Chats", {
       method: "get",
@@ -46,6 +68,7 @@ function Chat({ token, username }) {
     <div id="chat-body">
       <div className="container cont w-100 m-0 p-0 mw-100">
         <div className="row cont w-100 m-0 p-0">
+          {}
           <LeftSide
             contactList={contactList}
             selected={selected}
@@ -56,7 +79,8 @@ function Chat({ token, username }) {
           <RightSide
             selected={FindSelected()}
             token={token}
-            Update={FetchData}
+            UpdateContact={UpdateContact}
+            socket={socket}
           />
         </div>
       </div>
@@ -65,6 +89,7 @@ function Chat({ token, username }) {
         token={token}
         contactList={contactList}
         SetContactList={SetContactList}
+        socket={socket}
       />
     </div>
   );
